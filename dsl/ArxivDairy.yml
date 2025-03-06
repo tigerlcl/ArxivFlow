@@ -224,6 +224,28 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 1740561517878-fail-branch-1740724168131-target
+      source: '1740561517878'
+      sourceHandle: fail-branch
+      target: '1740724168131'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 1740615995789-fail-branch-1740724168131-target
+      source: '1740615995789'
+      sourceHandle: fail-branch
+      target: '1740724168131'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
         desc: ''
@@ -234,11 +256,11 @@ workflow:
       height: 54
       id: '1740550800281'
       position:
-        x: -30.92003309613949
-        y: -53.15566192224336
+        x: -23.414742896461348
+        y: 148.8781165677222
       positionAbsolute:
-        x: -30.92003309613949
-        y: -53.15566192224336
+        x: -23.414742896461348
+        y: 148.8781165677222
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -301,11 +323,11 @@ workflow:
       height: 54
       id: '1740552563893'
       position:
-        x: 2001.4545429269883
-        y: -53.15566192224336
+        x: 2034.4778198055724
+        y: 265.06864254410937
       positionAbsolute:
-        x: 2001.4545429269883
-        y: -53.15566192224336
+        x: 2034.4778198055724
+        y: 265.06864254410937
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -349,7 +371,7 @@ workflow:
       positionAbsolute:
         x: 1639.2672773012114
         y: 148.8781165677222
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -361,6 +383,7 @@ workflow:
           \      'result': json.dumps(data)\n        }"
         code_language: python3
         desc: ''
+        error_strategy: fail-branch
         outputs:
           result:
             children: null
@@ -373,7 +396,7 @@ workflow:
           - '1740552082706'
           - text
           variable: input_string
-      height: 54
+      height: 90
       id: '1740561517878'
       position:
         x: 1349.841693704671
@@ -415,12 +438,12 @@ workflow:
       height: 331
       id: '1740562999688'
       position:
-        x: 535.2439918104974
-        y: -53.15566192224336
+        x: 464.69426393352296
+        y: -48.65248780243648
       positionAbsolute:
-        x: 535.2439918104974
-        y: -53.15566192224336
-      selected: false
+        x: 464.69426393352296
+        y: -48.65248780243648
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom-note
@@ -442,6 +465,7 @@ workflow:
           \        \"topic\": topic_map[this_topic][\"topic\"]\n    }\n"
         code_language: python3
         desc: KEYWORDS in use
+        error_strategy: fail-branch
         outputs:
           result:
             children: null
@@ -449,6 +473,10 @@ workflow:
           topic:
             children: null
             type: string
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 1000
         selected: false
         title: Query Generator
         type: code
@@ -461,14 +489,14 @@ workflow:
           - env
           - KEYWORDS
           variable: topics
-      height: 82
+      height: 143
       id: '1740615995789'
       position:
-        x: 419.6256724283694
-        y: 327.91470621827636
+        x: 422.62778850824066
+        y: 685.1665197229554
       positionAbsolute:
-        x: 419.6256724283694
-        y: 327.91470621827636
+        x: 422.62778850824066
+        y: 685.1665197229554
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -653,11 +681,11 @@ workflow:
       height: 160
       id: '1740638028046'
       position:
-        x: 139.81997049355266
-        y: 91.34027654342162
+        x: 118.80515793445397
+        y: 327.91470621827636
       positionAbsolute:
-        x: 139.81997049355266
-        y: 91.34027654342162
+        x: 118.80515793445397
+        y: 327.91470621827636
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -685,14 +713,18 @@ workflow:
           - error_message
         - - '1741079554177'
           - error_message
-      height: 159
+        - - '1740615995789'
+          - error_message
+        - - '1740561517878'
+          - error_message
+      height: 203
       id: '1740724168131'
       position:
         x: 1349.841693704671
-        y: 519.7733115430567
+        y: 748.60719473001
       positionAbsolute:
         x: 1349.841693704671
-        y: 519.7733115430567
+        y: 748.60719473001
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -731,10 +763,10 @@ workflow:
       id: '1740724332371'
       position:
         x: 1639.2672773012114
-        y: 386.85220710552403
+        y: 563.9770558179279
       positionAbsolute:
         x: 1639.2672773012114
-        y: 386.85220710552403
+        y: 563.9770558179279
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -843,6 +875,6 @@ workflow:
       type: custom
       width: 244
     viewport:
-      x: 194.3923622163125
-      y: 286.41967591327943
+      x: 36.39236221631245
+      y: 225.41967591327943
       zoom: 0.6661967581499284

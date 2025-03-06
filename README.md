@@ -29,6 +29,7 @@ This workflow serves for tracking daily updates in Arxiv.org. Paper info will be
 - `FEISHU_xxx`: Webhook of Feishu Group Bot testing (_DEV) and Deployment (_PROD)
 - `JINA`: web crawler for Arxiv.org（ p.s. Jina tool in Dify Marketplace, can't function well）
 - `KEYWORDS`: For Arxiv query, comma separated. I set 6 keywords in align with my pre-defined time-trigger automation flow in Github Actions.
+- `PAPER_NUM_MAX`: number of papers for message post (you can not send too much information in Feishu)
 
 
 # Acknowledgement
