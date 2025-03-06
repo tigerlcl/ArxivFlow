@@ -1,0 +1,834 @@
+app:
+  description: Daily Track on Arxiv.org Paper
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: ArxivDairy
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.5@fd6efd37c2a931911de8ab9ca3ba2da303bef146d45ee87ad896b04b36d09403
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: ''
+    id: bf09d559-9229-4b1b-9e7c-e246584e09f1
+    name: JINA
+    selector:
+    - env
+    - JINA
+    value: ''
+    value_type: secret
+  - description: ''
+    id: 266960d4-3211-4257-85b9-b9cecce53ebf
+    name: FEISHU_DEV
+    selector:
+    - env
+    - FEISHU_DEV
+    value: ''
+    value_type: secret
+  - description: ''
+    id: b1dcdee9-6e92-4a8f-983e-eabfe5f48f77
+    name: FEISHU_PROD
+    selector:
+    - env
+    - FEISHU_WEBHOOK
+    value: ''
+    value_type: secret
+  - description: ''
+    id: 980c6989-26f5-4d69-84e4-b5bb5d527281
+    name: KEYWORDS
+    selector:
+    - env
+    - KEYWORDS
+    value: MA,CY,CL,IR,DB,HC
+    value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 5
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: http-request
+      id: 1740561517878-source-1740559525137-target
+      selected: false
+      source: '1740561517878'
+      sourceHandle: source
+      target: '1740559525137'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: end
+      id: 1740559525137-source-1740552563893-target
+      selected: false
+      source: '1740559525137'
+      sourceHandle: source
+      target: '1740552563893'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: code
+      id: 1740552082706-source-1740561517878-target
+      selected: false
+      source: '1740552082706'
+      sourceHandle: source
+      target: '1740561517878'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: tool
+      id: 1740550800281-source-1740638028046-target
+      source: '1740550800281'
+      sourceHandle: source
+      target: '1740638028046'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: tool
+        targetType: code
+      id: 1740638028046-source-1740615995789-target
+      source: '1740638028046'
+      sourceHandle: source
+      target: '1740615995789'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: variable-aggregator
+      id: 1740552082706-fail-branch-1740724168131-target
+      source: '1740552082706'
+      sourceHandle: fail-branch
+      target: '1740724168131'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: variable-aggregator
+        targetType: http-request
+      id: 1740724168131-source-1740724332371-target
+      source: '1740724168131'
+      sourceHandle: source
+      target: '1740724332371'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: end
+      id: 1740724332371-source-1740552563893-target
+      source: '1740724332371'
+      sourceHandle: source
+      target: '1740552563893'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: code
+      id: 1740615995789-source-1741079554177-target
+      source: '1740615995789'
+      sourceHandle: source
+      target: '1741079554177'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: llm
+      id: 1741079554177-source-1740552082706-target
+      source: '1741079554177'
+      sourceHandle: source
+      target: '1740552082706'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 1741079554177-fail-branch-1740724168131-target
+      source: '1741079554177'
+      sourceHandle: fail-branch
+      target: '1740724168131'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: START
+        type: start
+        variables: []
+      height: 54
+      id: '1740550800281'
+      position:
+        x: -30.92003309613949
+        y: -53.15566192224336
+      positionAbsolute:
+        x: -30.92003309613949
+        y: -53.15566192224336
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: Enrich info and Format Parsed Output
+        error_strategy: fail-branch
+        model:
+          completion_params:
+            temperature: 1
+          mode: chat
+          name: deepseek-reasoner
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 9d3a137c-6000-4a9a-9095-8cdf2c41cf6e
+          role: system
+          text: "假如你是{{#1740615995789.topic#}}领域的专家，对于每一篇论文生成一份总结，确保包含以下字段：标题、作者、关键词、摘要、推荐理由、PDF链接和备注：\n\
+            \n标题：提供英文原文title\n作者：根据 authors 仅保留第一和第二作者的姓名，超出2个作者的信息用 et. al替代\n摘要：请用“本文提出....”开头，根据abstract内容，不要做删减\n\
+            关键词：根据abstract内容生成，最多不超过三个关键词，使用英文\n推荐理由：根据title和abstract撰写推荐理由，使用中文\n\
+            PDF链接： pdf_link\n备注：根据Comment信息生成，如有提供原文，否则不显示\n\n输出内容格式要求：\n1. 开头第一行用“今日{{#1740615995789.topic#}}论文上新”\
+            \ \n2. 对于每一篇文章，使用 Field:Value来描述, 例如 标题：xxxx\n3. 论文之间空一行换行符分隔\n4. 不需要提供任何上下文，用户也不会作出回复"
+        - id: f67e0dca-930b-4bfc-a7fa-f33691b09daa
+          role: user
+          text: '​论文详细信息如下:
+
+            {{#1741079554177.result#}}'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        title: LLM Refine
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 179
+      id: '1740552082706'
+      position:
+        x: 1051.2384287702967
+        y: 327.91470621827636
+      positionAbsolute:
+        x: 1051.2384287702967
+        y: 327.91470621827636
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs: []
+        selected: false
+        title: END
+        type: end
+      height: 54
+      id: '1740552563893'
+      position:
+        x: 2001.4545429269883
+        y: -53.15566192224336
+      positionAbsolute:
+        x: 2001.4545429269883
+        y: -53.15566192224336
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-10
+            key: ''
+            type: text
+            value: "{\n    \"msg_type\": \"text\",\n    \"content\": {\n        \"\
+              text\": {{#1740561517878.result#}}\n    }\n}"
+          type: json
+        desc: ''
+        error_strategy: fail-branch
+        headers: Content-Type:application/json
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 100
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Feishu Bot POST
+        type: http-request
+        url: '{{#env.FEISHU_PROD#}}'
+        variables: []
+      height: 133
+      id: '1740559525137'
+      position:
+        x: 1639.2672773012114
+        y: 148.8781165677222
+      positionAbsolute:
+        x: 1639.2672773012114
+        y: 148.8781165677222
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import re\nimport json\n\ndef main(input_string: str) -> dict:\n  \
+          \  cleaned_string = re.sub(r'.*?details>', '', input_string, flags=re.DOTALL)\n\
+          \    data = re.sub(r'\\n', '\\\\n', cleaned_string)\n\n    return {\n  \
+          \      'result': json.dumps(data)\n        }"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 'Structured Output '
+        type: code
+        variables:
+        - value_selector:
+          - '1740552082706'
+          - text
+          variable: input_string
+      height: 54
+      id: '1740561517878'
+      position:
+        x: 1349.841693704671
+        y: 327.91470621827636
+      positionAbsolute:
+        x: 1349.841693704671
+        y: 327.91470621827636
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        author: Tiger LI
+        desc: ''
+        height: 331
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Objectives:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"This
+          workflow serves for tracking daily updates in Arxiv.org. Paper info will
+          be preprocessed and concluded by a series of modules. Finally, it will post
+          to a group chat in Feishu for reading. The target user is for education
+          and research purpose.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Workflow
+          ENV","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"FEISHU_xxx:
+          Webhook of Feishu Group Bot testing (_DEV) and Deployment (-PROD)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"JINA:
+          web crawler for Arxiv.org（ p.s. Jina tool in Dify Marketplace, can''t function
+          well）","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"KEYWORDS
+          - For Arxiv query, comma separated. I set 6 keywords in align with my pre-defined
+          time-trigger automation flow in Github Actions.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Workflow
+          cost","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Deepseek
+          API + Jina API =< 0.05 CNY","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Automation
+          deployment：Please refer to https://github.com/leochen-g/dify-schedule","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 1021
+      height: 331
+      id: '1740562999688'
+      position:
+        x: 535.2439918104974
+        y: -53.15566192224336
+      positionAbsolute:
+        x: 535.2439918104974
+        y: -53.15566192224336
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 1021
+    - data:
+        code: "\ndef main(hour:str, topics:str) -> dict:\n\n    topic_map = {\n  \
+          \      \"DB\": {\n            \"topic\": \"RAG\",\n            \"query\"\
+          : \"RAG\"\n        },\n        \"CL\": {\n            \"topic\": \"Computation\
+          \ and Language\",\n            \"query\": \"cs.CL+cs.AI\"\n        },\n\
+          \        \"HC\": {\n            \"topic\": \"Human-Computer Interaction\"\
+          ,\n            \"query\": \"cs.HC+cs.AI\"\n        },\n        \"MA\": {\n\
+          \            \"topic\": \"Agentic AI\",\n            \"query\": \"Agent+cs.AI\"\
+          \n        },\n        \"CY\": {\n            \"topic\": \"Computers and\
+          \ Society\",\n            \"query\": \"cs.CY+cs.AI\"\n        },\n     \
+          \   \"IR\": {\n            \"topic\": \"Information Retrieval\",\n     \
+          \       \"query\": \"cs.IR+cs.AI\"\n        },\n    }\n\n    idx = int(hour)//4\n\
+          \    this_topic = topics.split(',')[idx]\n\n    return {\n        \"result\"\
+          : topic_map[this_topic][\"query\"],\n        \"topic\": topic_map[this_topic][\"\
+          topic\"]\n    }\n"
+        code_language: python3
+        desc: custom query content
+        outputs:
+          result:
+            children: null
+            type: string
+          topic:
+            children: null
+            type: string
+        selected: false
+        title: Query Generator
+        type: code
+        variables:
+        - value_selector:
+          - '1740638028046'
+          - text
+          variable: hour
+        - value_selector:
+          - env
+          - KEYWORDS
+          variable: topics
+      height: 82
+      id: '1740615995789'
+      position:
+        x: 419.6256724283694
+        y: 327.91470621827636
+      positionAbsolute:
+        x: 419.6256724283694
+        y: 327.91470621827636
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: distribute different topics aligned with hourly event-trigger
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: '%Y-%m-%d %H:%M:%S'
+          form: form
+          human_description:
+            en_US: Time format in strftime standard.
+            ja_JP: Time format in strftime standard.
+            pt_BR: Time format in strftime standard.
+            zh_Hans: strftime 标准的时间格式。
+          label:
+            en_US: Format
+            ja_JP: Format
+            pt_BR: Format
+            zh_Hans: 格式
+          llm_description: null
+          max: null
+          min: null
+          name: format
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: UTC
+          form: form
+          human_description:
+            en_US: Timezone
+            ja_JP: Timezone
+            pt_BR: Timezone
+            zh_Hans: 时区
+          label:
+            en_US: Timezone
+            ja_JP: Timezone
+            pt_BR: Timezone
+            zh_Hans: 时区
+          llm_description: null
+          max: null
+          min: null
+          name: timezone
+          options:
+          - label:
+              en_US: UTC
+              ja_JP: UTC
+              pt_BR: UTC
+              zh_Hans: UTC
+            value: UTC
+          - label:
+              en_US: America/New_York
+              ja_JP: America/New_York
+              pt_BR: America/New_York
+              zh_Hans: 美洲/纽约
+            value: America/New_York
+          - label:
+              en_US: America/Los_Angeles
+              ja_JP: America/Los_Angeles
+              pt_BR: America/Los_Angeles
+              zh_Hans: 美洲/洛杉矶
+            value: America/Los_Angeles
+          - label:
+              en_US: America/Chicago
+              ja_JP: America/Chicago
+              pt_BR: America/Chicago
+              zh_Hans: 美洲/芝加哥
+            value: America/Chicago
+          - label:
+              en_US: America/Sao_Paulo
+              ja_JP: America/Sao_Paulo
+              pt_BR: América/São Paulo
+              zh_Hans: 美洲/圣保罗
+            value: America/Sao_Paulo
+          - label:
+              en_US: Asia/Shanghai
+              ja_JP: Asia/Shanghai
+              pt_BR: Asia/Shanghai
+              zh_Hans: 亚洲/上海
+            value: Asia/Shanghai
+          - label:
+              en_US: Asia/Ho_Chi_Minh
+              ja_JP: Asia/Ho_Chi_Minh
+              pt_BR: Ásia/Ho Chi Minh
+              zh_Hans: 亚洲/胡志明市
+            value: Asia/Ho_Chi_Minh
+          - label:
+              en_US: Asia/Tokyo
+              ja_JP: Asia/Tokyo
+              pt_BR: Asia/Tokyo
+              zh_Hans: 亚洲/东京
+            value: Asia/Tokyo
+          - label:
+              en_US: Asia/Dubai
+              ja_JP: Asia/Dubai
+              pt_BR: Asia/Dubai
+              zh_Hans: 亚洲/迪拜
+            value: Asia/Dubai
+          - label:
+              en_US: Asia/Kolkata
+              ja_JP: Asia/Kolkata
+              pt_BR: Asia/Kolkata
+              zh_Hans: 亚洲/加尔各答
+            value: Asia/Kolkata
+          - label:
+              en_US: Asia/Seoul
+              ja_JP: Asia/Seoul
+              pt_BR: Asia/Seoul
+              zh_Hans: 亚洲/首尔
+            value: Asia/Seoul
+          - label:
+              en_US: Asia/Singapore
+              ja_JP: Asia/Singapore
+              pt_BR: Asia/Singapore
+              zh_Hans: 亚洲/新加坡
+            value: Asia/Singapore
+          - label:
+              en_US: Europe/London
+              ja_JP: Europe/London
+              pt_BR: Europe/London
+              zh_Hans: 欧洲/伦敦
+            value: Europe/London
+          - label:
+              en_US: Europe/Berlin
+              ja_JP: Europe/Berlin
+              pt_BR: Europe/Berlin
+              zh_Hans: 欧洲/柏林
+            value: Europe/Berlin
+          - label:
+              en_US: Europe/Moscow
+              ja_JP: Europe/Moscow
+              pt_BR: Europe/Moscow
+              zh_Hans: 欧洲/莫斯科
+            value: Europe/Moscow
+          - label:
+              en_US: Australia/Sydney
+              ja_JP: Australia/Sydney
+              pt_BR: Australia/Sydney
+              zh_Hans: 澳大利亚/悉尼
+            value: Australia/Sydney
+          - label:
+              en_US: Pacific/Auckland
+              ja_JP: Pacific/Auckland
+              pt_BR: Pacific/Auckland
+              zh_Hans: 太平洋/奥克兰
+            value: Pacific/Auckland
+          - label:
+              en_US: Africa/Cairo
+              ja_JP: Africa/Cairo
+              pt_BR: Africa/Cairo
+              zh_Hans: 非洲/开罗
+            value: Africa/Cairo
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        params:
+          format: ''
+          timezone: ''
+        provider_id: time
+        provider_name: time
+        provider_type: builtin
+        selected: false
+        title: Current Hour
+        tool_configurations:
+          format: '%H'
+          timezone: Asia/Shanghai
+        tool_label: Current Time
+        tool_name: current_time
+        tool_parameters: {}
+        type: tool
+      height: 160
+      id: '1740638028046'
+      position:
+        x: 139.81997049355266
+        y: 91.34027654342162
+      positionAbsolute:
+        x: 139.81997049355266
+        y: 91.34027654342162
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        advanced_settings:
+          group_enabled: false
+          groups:
+          - groupId: 13c8e642-9b3c-4f60-b2cc-57817834a38b
+            group_name: Group1
+            output_type: string
+            variables:
+            - - '1740568563166'
+              - error_message
+            - - '1740552082706'
+              - error_message
+        desc: Error handling
+        output_type: string
+        selected: false
+        title: Variable Aggregator
+        type: variable-aggregator
+        variables:
+        - - '1740552082706'
+          - error_message
+        - - '1741079554177'
+          - error_message
+      height: 159
+      id: '1740724168131'
+      position:
+        x: 1349.841693704671
+        y: 519.7733115430567
+      positionAbsolute:
+        x: 1349.841693704671
+        y: 519.7733115430567
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-974
+            key: ''
+            type: text
+            value: "{\n    \"msg_type\": \"text\",\n    \"content\": {\n        \"\
+              text\": \"Encounter error:{{#1740724168131.output#}}\"\n    }\n"
+          type: json
+        desc: ''
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 100
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Error Report
+        type: http-request
+        url: '{{#env.FEISHU_DEV#}}'
+        variables: []
+      height: 97
+      id: '1740724332371'
+      position:
+        x: 1639.2672773012114
+        y: 386.85220710552403
+      positionAbsolute:
+        x: 1639.2672773012114
+        y: 386.85220710552403
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import requests\nimport re\nimport json\n\ndef extract_arxiv_papers(markdown_content,\
+          \ max_papers=5):\n    \"\"\"\n    Extract paper information from arXiv search\
+          \ results in markdown format\n    \n    Args:\n        markdown_content:\
+          \ Markdown content of arXiv search results\n        max_papers: Maximum\
+          \ number of papers to extract\n        \n    Returns:\n        List of dictionaries\
+          \ containing paper information\n    \"\"\"\n    # Split the content by paper\
+          \ entries (each starts with a number followed by a period)\n    paper_sections\
+          \ = re.split(r'\\d+\\.\\s+\\[arXiv:', markdown_content)\n    \n    # Remove\
+          \ the header section\n    if paper_sections and not paper_sections[0].strip().startswith('[arXiv:'):\n\
+          \        paper_sections = paper_sections[1:]\n    \n    results = []\n \
+          \   \n    # Process only the specified number of papers\n    for i, section\
+          \ in enumerate(paper_sections):\n        if i >= max_papers:\n         \
+          \   break\n            \n        # Add back the arXiv prefix for proper\
+          \ parsing\n        section = '[arXiv:' + section\n        \n        paper_data\
+          \ = {}\n        \n        # Extract paper ID and links\n        id_match\
+          \ = re.search(r'\\[arXiv:(\\d+\\.\\d+)\\]', section)\n        if id_match:\n\
+          \            paper_id = id_match.group(1)\n            paper_data['id']\
+          \ = paper_id\n            paper_data['link'] = f\"https://arxiv.org/abs/{paper_id}\"\
+          \n            paper_data['pdf_link'] = f\"https://arxiv.org/pdf/{paper_id}\"\
+          \n        \n        # Extract title and category\n        title_match =\
+          \ re.search(r'\\n\\s+(.*?)\\n\\s+Authors:', section, re.DOTALL)\n      \
+          \  if title_match:\n            title_text = title_match.group(1).strip()\n\
+          \            \n            # Extract category if present (usually appears\
+          \ as cs.XX, math.XX, etc.)\n            category_match = re.search(r'^((?:[a-z]+\\\
+          .[A-Z]+\\s*)+)\\s*\\n\\s*(.*)', title_text, re.DOTALL)\n            if category_match:\n\
+          \                # Extract categories (might be multiple)\n            \
+          \    categories = category_match.group(1).strip().split()\n            \
+          \    paper_data['categories'] = categories\n                # Clean title\
+          \ is the second group\n                paper_data['title'] = category_match.group(2).strip()\n\
+          \            else:\n                # No category found, use the whole text\
+          \ as title\n                paper_data['title'] = title_text\n         \
+          \       paper_data['categories'] = []\n        \n        # Extract authors\n\
+          \        authors_match = re.search(r'Authors: (.*?)\\n\\s+Abstract:', section,\
+          \ re.DOTALL)\n        if authors_match:\n            # Extract author names\
+          \ from the links\n            author_text = authors_match.group(1)\n   \
+          \         author_names = re.findall(r'\\[(.*?)\\]', author_text)\n     \
+          \       paper_data['authors'] = author_names\n        else:\n          \
+          \  paper_data['authors'] = []\n        \n        # Extract abstract\n  \
+          \      abstract_match = re.search(r'Abstract: (.*?)(?:\\n\\s+Submitted|\\\
+          n\\s+$)', section, re.DOTALL)\n        if abstract_match:\n            #\
+          \ Clean up the abstract text\n            abstract = abstract_match.group(1).strip()\n\
+          \            # Remove the \"▽ More\" or \"△ Less\" text that appears at\
+          \ the end of abstracts\n            abstract = re.sub(r'[▽△] (?:More|Less)$',\
+          \ '', abstract).strip()\n            paper_data['abstract'] = abstract\n\
+          \        \n        # Extract submission info\n        submission_match =\
+          \ re.search(r'Submitted (.*?)\\.', section)\n        if submission_match:\n\
+          \            paper_data['submission_info'] = f\"Submitted {submission_match.group(1)}\"\
+          \n        \n        # Extract comments if present\n        comments_match\
+          \ = re.search(r'Comments: (.*?)(?:\\n\\s+|$)', section)\n        if comments_match:\n\
+          \            paper_data['comments'] = comments_match.group(1).strip()\n\
+          \        \n        results.append(paper_data)\n    \n    return results\n\
+          \ndef fetch_arxiv_papers(query, api_auth, max_papers):\n    \"\"\"\n   \
+          \ Fetch arXiv papers using the Jina API and extract paper information\n\
+          \    \n    Args:\n        query: Search query for arXiv\n        \n    Returns:\n\
+          \        List of dictionaries containing paper information\n    \"\"\"\n\
+          \    url = f'https://r.jina.ai/https://arxiv.org/search/?query={query}&searchtype=all&abstracts=show&order=-submitted_date&size=25'\n\
+          \    headers = {\n        'Authorization': f'Bearer {api_auth}',\n     \
+          \   'X-Return-Format': 'markdown'  # Use markdown format\n    }\n    \n\
+          \    response = requests.get(url, headers=headers)\n        \n    # Extract\
+          \ the markdown content from the response\n    markdown_content = response.text\n\
+          \    papers = extract_arxiv_papers(markdown_content, max_papers=max_papers)\n\
+          \    \n    return papers\n\ndef main(query:str, api_auth:str) -> dict:\n\
+          \    # Fetch papers\n    papers = fetch_arxiv_papers(query=query, api_auth=api_auth,\
+          \ max_papers=5)\n    result = json.dumps(papers, indent=2)\n\n    return\
+          \ {\n        \"result\": result\n    }\n"
+        code_language: python3
+        desc: Py Custom Result PostProcessing
+        error_strategy: fail-branch
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: Arxiv Jina Parser
+        type: code
+        variables:
+        - value_selector:
+          - '1740615995789'
+          - result
+          variable: query
+        - value_selector:
+          - env
+          - JINA
+          variable: api_auth
+      height: 118
+      id: '1741079554177'
+      position:
+        x: 734.3848133082164
+        y: 483.60662988581134
+      positionAbsolute:
+        x: 734.3848133082164
+        y: 483.60662988581134
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 216.31945028236626
+      y: 196.01465706157705
+      zoom: 0.29586320092309437
