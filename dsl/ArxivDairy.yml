@@ -16,6 +16,14 @@ workflow:
   conversation_variables: []
   environment_variables:
   - description: ''
+    id: 3c7fa440-e2f4-4364-959f-003dd2d7ca80
+    name: PAPER_NUM_MAX
+    selector:
+    - env
+    - PAPER_NUM_MAX
+    value: 5
+    value_type: number
+  - description: ''
     id: bf09d559-9229-4b1b-9e7c-e246584e09f1
     name: JINA
     selector:
@@ -341,7 +349,7 @@ workflow:
       positionAbsolute:
         x: 1639.2672773012114
         y: 148.8781165677222
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -389,7 +397,9 @@ workflow:
           be preprocessed and concluded by a series of modules. Finally, it will post
           to a group chat in Feishu for reading. The target user is for education
           and research purpose.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Workflow
-          ENV","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"FEISHU_xxx:
+          ENV","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"PAPER_NUM_MAX:
+          number of papers for message post (you can not send too much information
+          in Feishu)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"FEISHU_xxx:
           Webhook of Feishu Group Bot testing (_DEV) and Deployment (-PROD)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"JINA:
           web crawler for Arxiv.org（ p.s. Jina tool in Dify Marketplace, can''t function
           well）","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"KEYWORDS
@@ -410,7 +420,7 @@ workflow:
       positionAbsolute:
         x: 535.2439918104974
         y: -53.15566192224336
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom-note
@@ -426,12 +436,12 @@ workflow:
           \n        },\n        \"CY\": {\n            \"topic\": \"Computers and\
           \ Society\",\n            \"query\": \"cs.CY+cs.AI\"\n        },\n     \
           \   \"IR\": {\n            \"topic\": \"Information Retrieval\",\n     \
-          \       \"query\": \"cs.IR+cs.AI\"\n        },\n    }\n\n    idx = int(hour)//4\n\
-          \    this_topic = topics.split(',')[idx]\n\n    return {\n        \"result\"\
-          : topic_map[this_topic][\"query\"],\n        \"topic\": topic_map[this_topic][\"\
-          topic\"]\n    }\n"
+          \       \"query\": \"cs.IR+cs.AI\"\n        },\n    }\n\n    # switch topic\
+          \ per 4-hour\n    idx = int(hour)//4\n    this_topic = topics.split(',')[idx]\n\
+          \n    return {\n        \"result\": topic_map[this_topic][\"query\"],\n\
+          \        \"topic\": topic_map[this_topic][\"topic\"]\n    }\n"
         code_language: python3
-        desc: custom query content
+        desc: KEYWORDS in use
         outputs:
           result:
             children: null
@@ -732,7 +742,7 @@ workflow:
       width: 244
     - data:
         code: "import requests\nimport re\nimport json\n\ndef extract_arxiv_papers(markdown_content,\
-          \ max_papers=5):\n    \"\"\"\n    Extract paper information from arXiv search\
+          \ max_papers):\n    \"\"\"\n    Extract paper information from arXiv search\
           \ results in markdown format\n    \n    Args:\n        markdown_content:\
           \ Markdown content of arXiv search results\n        max_papers: Maximum\
           \ number of papers to extract\n        \n    Returns:\n        List of dictionaries\
@@ -792,12 +802,12 @@ workflow:
           \    response = requests.get(url, headers=headers)\n        \n    # Extract\
           \ the markdown content from the response\n    markdown_content = response.text\n\
           \    papers = extract_arxiv_papers(markdown_content, max_papers=max_papers)\n\
-          \    \n    return papers\n\ndef main(query:str, api_auth:str) -> dict:\n\
-          \    # Fetch papers\n    papers = fetch_arxiv_papers(query=query, api_auth=api_auth,\
-          \ max_papers=5)\n    result = json.dumps(papers, indent=2)\n\n    return\
-          \ {\n        \"result\": result\n    }\n"
+          \    \n    return papers\n\ndef main(query:str, api_auth:str, max_papers:\
+          \ int) -> dict:\n    # Fetch papers\n    papers = fetch_arxiv_papers(query=query,\
+          \ api_auth=api_auth, max_papers=max_papers)\n    result = json.dumps(papers,\
+          \ indent=2)\n\n    return {\n        \"result\": result\n    }\n"
         code_language: python3
-        desc: Py Custom Result PostProcessing
+        desc: JINA, PAPER_NUM_MAX in use
         error_strategy: fail-branch
         outputs:
           result:
@@ -815,6 +825,10 @@ workflow:
           - env
           - JINA
           variable: api_auth
+        - value_selector:
+          - env
+          - PAPER_NUM_MAX
+          variable: max_papers
       height: 118
       id: '1741079554177'
       position:
@@ -829,6 +843,6 @@ workflow:
       type: custom
       width: 244
     viewport:
-      x: 216.31945028236626
-      y: 196.01465706157705
-      zoom: 0.29586320092309437
+      x: 194.3923622163125
+      y: 286.41967591327943
+      zoom: 0.6661967581499284
