@@ -291,7 +291,7 @@ workflow:
           text: "假如你是{{#1740615995789.topic#}}领域的专家，对于每一篇论文生成一份总结，确保包含以下字段：标题、作者、关键词、摘要、推荐理由、PDF链接和备注：\n\
             \n标题：提供英文原文title\n作者：根据 authors 仅保留第一和第二作者的姓名，超出2个作者的信息用 et. al替代\n摘要：根据abstract内容翻译成中文，并且用“本文提出....”开头，不要做删减\n\
             关键词：根据abstract内容生成，最多不超过三个关键词，使用英文\n推荐理由：根据title和abstract撰写推荐理由，使用中文，不超过50字\n\
-            PDF链接： pdf_link\n备注：根据Comment信息生成，如有提供原文，否则不显示\n\n输出内容格式要求：\n1. 开头第一行用“今日{{#1740615995789.topic#}}论文上新”\
+            PDF链接： pdf_link\n备注：根据comments信息生成，如有，提供原文，否则不显示\n\n输出内容格式要求：\n1. 开头第一行用“今日{{#1740615995789.topic#}}论文上新”\
             \ \n2. 对于每一篇文章，使用 Field:Value来描述, 例如 标题：xxxx\n3. 论文之间空一行换行符分隔\n4. 不需要提供任何上下文，用户也不会作出回复"
         - id: f67e0dca-930b-4bfc-a7fa-f33691b09daa
           role: user
@@ -840,18 +840,16 @@ workflow:
           \ '', abstract).strip()\n                # Also remove any remaining \"\
           ▽ More\" text\n                abstract = re.sub(r'…\\s*\\[▽ More\\]\\([^)]+\\\
           ).*$', '…', abstract, flags=re.DOTALL).strip()\n            \n         \
-          \   paper_data['abstract'] = abstract\n        \n        # Extract submission\
-          \ info\n        submission_match = re.search(r'Submitted (.*?)\\.', section)\n\
-          \        if submission_match:\n            paper_data['submission_info']\
-          \ = f\"Submitted {submission_match.group(1)}\"\n        \n        # Extract\
-          \ comments if present\n        comments_match = re.search(r'Comments: (.*?)(?:\\\
-          n\\s+|$)', section)\n        if comments_match:\n            paper_data['comments']\
-          \ = comments_match.group(1).strip()\n        \n        results.append(paper_data)\n\
-          \    \n    return results\n\ndef fetch_arxiv_papers(query, api_auth, max_papers):\n\
-          \    \"\"\"\n    Fetch arXiv papers using the Jina API and extract paper\
-          \ information\n    \n    Args:\n        query: Search query for arXiv\n\
-          \        \n    Returns:\n        List of dictionaries containing paper information\n\
-          \    \"\"\"\n    url = f'https://r.jina.ai/https://arxiv.org/search/?query={query}&searchtype=all&abstracts=show&order=-submitted_date&size=25'\n\
+          \   paper_data['abstract'] = abstract\n        \n        # Extract comments\
+          \ if present\n        comments_match = re.search(r'Comments:\\s*(.*?)(?:\\\
+          n\\s*(?:\\d+\\.|ACM Class:|$))', section, re.DOTALL)\n        if comments_match:\n\
+          \            paper_data['comments'] = comments_match.group(1).strip()\n\
+          \        \n        results.append(paper_data)\n    \n    return results\n\
+          \ndef fetch_arxiv_papers(query, api_auth, max_papers):\n    \"\"\"\n   \
+          \ Fetch arXiv papers using the Jina API and extract paper information\n\
+          \    \n    Args:\n        query: Search query for arXiv\n        \n    Returns:\n\
+          \        List of dictionaries containing paper information\n    \"\"\"\n\
+          \    url = f'https://r.jina.ai/https://arxiv.org/search/?query={query}&searchtype=all&abstracts=show&order=-submitted_date&size=25'\n\
           \    headers = {\n        'Authorization': f'Bearer {api_auth}',\n     \
           \   'X-Return-Format': 'markdown'  # Use markdown format\n    }\n    \n\
           \    response = requests.get(url, headers=headers)\n        \n    # Extract\
@@ -898,6 +896,6 @@ workflow:
       type: custom
       width: 244
     viewport:
-      x: -875.0077654133213
-      y: 226.80861283698914
+      x: -552.0077654133213
+      y: 209.80861283698908
       zoom: 0.7895341020494626

@@ -1,6 +1,6 @@
 import re
 import json
-import requests
+# import requests
 
 
 def extract_arxiv_papers(markdown_content, max_papers):
@@ -92,13 +92,8 @@ def extract_arxiv_papers(markdown_content, max_papers):
             
             paper_data['abstract'] = abstract
         
-        # Extract submission info
-        submission_match = re.search(r'Submitted (.*?)\.', section)
-        if submission_match:
-            paper_data['submission_info'] = f"Submitted {submission_match.group(1)}"
-        
         # Extract comments if present
-        comments_match = re.search(r'Comments: (.*?)(?:\n\s+|$)', section)
+        comments_match = re.search(r'Comments:\s*(.*?)(?:\n\s*(?:\d+\.|ACM Class:|$))', section, re.DOTALL)
         if comments_match:
             paper_data['comments'] = comments_match.group(1).strip()
         
