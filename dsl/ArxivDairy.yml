@@ -11,7 +11,7 @@ dependencies:
   value:
     marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.5@fd6efd37c2a931911de8ab9ca3ba2da303bef146d45ee87ad896b04b36d09403
 kind: app
-version: 0.1.5
+version: 0.4.0
 workflow:
   conversation_variables: []
   environment_variables:
@@ -22,7 +22,7 @@ workflow:
     - env
     - PAPER_NUM_MAX
     value: 5
-    value_type: number
+    value_type: integer
   - description: ''
     id: bf09d559-9229-4b1b-9e7c-e246584e09f1
     name: JINA
@@ -53,7 +53,7 @@ workflow:
     selector:
     - env
     - KEYWORDS
-    value: MA,CY,CL,IR,DB,HC
+    value: CL,MA,LLM,DB
     value_type: string
   features:
     file_upload:
@@ -74,7 +74,7 @@ workflow:
         audio_file_size_limit: 50
         batch_count_limit: 5
         file_size_limit: 15
-        image_file_size_limit: 5
+        image_file_size_limit: 10
         video_file_size_limit: 100
         workflow_file_upload_limit: 10
       image:
@@ -163,6 +163,7 @@ workflow:
         sourceType: llm
         targetType: variable-aggregator
       id: 1740552082706-fail-branch-1740724168131-target
+      selected: false
       source: '1740552082706'
       sourceHandle: fail-branch
       target: '1740724168131'
@@ -174,6 +175,7 @@ workflow:
         sourceType: variable-aggregator
         targetType: http-request
       id: 1740724168131-source-1740724332371-target
+      selected: false
       source: '1740724168131'
       sourceHandle: source
       target: '1740724332371'
@@ -185,6 +187,7 @@ workflow:
         sourceType: http-request
         targetType: end
       id: 1740724332371-source-1740552563893-target
+      selected: false
       source: '1740724332371'
       sourceHandle: source
       target: '1740552563893'
@@ -196,6 +199,7 @@ workflow:
         sourceType: code
         targetType: code
       id: 1740615995789-source-1741079554177-target
+      selected: false
       source: '1740615995789'
       sourceHandle: source
       target: '1741079554177'
@@ -205,19 +209,9 @@ workflow:
     - data:
         isInIteration: false
         sourceType: code
-        targetType: llm
-      id: 1741079554177-source-1740552082706-target
-      source: '1741079554177'
-      sourceHandle: source
-      target: '1740552082706'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        sourceType: code
         targetType: variable-aggregator
       id: 1741079554177-fail-branch-1740724168131-target
+      selected: false
       source: '1741079554177'
       sourceHandle: fail-branch
       target: '1740724168131'
@@ -229,6 +223,7 @@ workflow:
         sourceType: code
         targetType: variable-aggregator
       id: 1740561517878-fail-branch-1740724168131-target
+      selected: false
       source: '1740561517878'
       sourceHandle: fail-branch
       target: '1740724168131'
@@ -240,9 +235,21 @@ workflow:
         sourceType: code
         targetType: variable-aggregator
       id: 1740615995789-fail-branch-1740724168131-target
+      selected: false
       source: '1740615995789'
       sourceHandle: fail-branch
       target: '1740724168131'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: llm
+      id: 1741079554177-source-1740552082706-target
+      source: '1741079554177'
+      sourceHandle: source
+      target: '1740552082706'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -282,8 +289,8 @@ workflow:
         - id: 9d3a137c-6000-4a9a-9095-8cdf2c41cf6e
           role: system
           text: "假如你是{{#1740615995789.topic#}}领域的专家，对于每一篇论文生成一份总结，确保包含以下字段：标题、作者、关键词、摘要、推荐理由、PDF链接和备注：\n\
-            \n标题：提供英文原文title\n作者：根据 authors 仅保留第一和第二作者的姓名，超出2个作者的信息用 et. al替代\n摘要：请用“本文提出....”开头，根据abstract内容，不要做删减\n\
-            关键词：根据abstract内容生成，最多不超过三个关键词，使用英文\n推荐理由：根据title和abstract撰写推荐理由，使用中文\n\
+            \n标题：提供英文原文title\n作者：根据 authors 仅保留第一和第二作者的姓名，超出2个作者的信息用 et. al替代\n摘要：根据abstract内容翻译成中文，并且用“本文提出....”开头，不要做删减\n\
+            关键词：根据abstract内容生成，最多不超过三个关键词，使用英文\n推荐理由：根据title和abstract撰写推荐理由，使用中文，不超过50字\n\
             PDF链接： pdf_link\n备注：根据Comment信息生成，如有提供原文，否则不显示\n\n输出内容格式要求：\n1. 开头第一行用“今日{{#1740615995789.topic#}}论文上新”\
             \ \n2. 对于每一篇文章，使用 Field:Value来描述, 例如 标题：xxxx\n3. 论文之间空一行换行符分隔\n4. 不需要提供任何上下文，用户也不会作出回复"
         - id: f67e0dca-930b-4bfc-a7fa-f33691b09daa
@@ -291,25 +298,28 @@ workflow:
           text: '​论文详细信息如下:
 
             {{#1741079554177.result#}}'
+        - id: 5bbe4c8b-dc9b-4549-8b22-ed628b6d1842
+          role: assistant
+          text: ''
         retry_config:
           max_retries: 3
           retry_enabled: true
           retry_interval: 1000
-        selected: false
+        selected: true
         title: LLM Refine
         type: llm
         variables: []
         vision:
           enabled: false
-      height: 179
+      height: 183
       id: '1740552082706'
       position:
-        x: 1051.2384287702967
-        y: 327.91470621827636
+        x: 1287.273251896793
+        y: 425.0450294425864
       positionAbsolute:
-        x: 1051.2384287702967
-        y: 327.91470621827636
-      selected: false
+        x: 1287.273251896793
+        y: 425.0450294425864
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -323,11 +333,11 @@ workflow:
       height: 54
       id: '1740552563893'
       position:
-        x: 2034.4778198055724
-        y: 265.06864254410937
+        x: 2257.261086426938
+        y: 353.21332629430185
       positionAbsolute:
-        x: 2034.4778198055724
-        y: 265.06864254410937
+        x: 2257.261086426938
+        y: 353.21332629430185
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -355,22 +365,23 @@ workflow:
           retry_enabled: false
           retry_interval: 100
         selected: false
+        ssl_verify: true
         timeout:
           max_connect_timeout: 0
           max_read_timeout: 0
           max_write_timeout: 0
         title: Feishu Bot POST
         type: http-request
-        url: '{{#env.FEISHU_PROD#}}'
+        url: '{{#env.FEISHU_DEV#}}'
         variables: []
-      height: 133
+      height: 134
       id: '1740559525137'
       position:
-        x: 1639.2672773012114
-        y: 148.8781165677222
+        x: 1899.8268369583736
+        y: 153.72123105949106
       positionAbsolute:
-        x: 1639.2672773012114
-        y: 148.8781165677222
+        x: 1899.8268369583736
+        y: 153.72123105949106
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -399,11 +410,11 @@ workflow:
       height: 90
       id: '1740561517878'
       position:
-        x: 1349.841693704671
-        y: 327.91470621827636
+        x: 1610.4012533618331
+        y: 326.94608331992265
       positionAbsolute:
-        x: 1349.841693704671
-        y: 327.91470621827636
+        x: 1610.4012533618331
+        y: 326.94608331992265
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -443,24 +454,20 @@ workflow:
       positionAbsolute:
         x: 464.69426393352296
         y: -48.65248780243648
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom-note
       width: 1021
     - data:
         code: "\ndef main(hour:str, topics:str) -> dict:\n\n    topic_map = {\n  \
-          \      \"DB\": {\n            \"topic\": \"RAG\",\n            \"query\"\
-          : \"RAG\"\n        },\n        \"CL\": {\n            \"topic\": \"Computation\
-          \ and Language\",\n            \"query\": \"cs.CL+cs.AI\"\n        },\n\
-          \        \"HC\": {\n            \"topic\": \"Human-Computer Interaction\"\
-          ,\n            \"query\": \"cs.HC+cs.AI\"\n        },\n        \"MA\": {\n\
-          \            \"topic\": \"Agentic AI\",\n            \"query\": \"Agent+cs.AI\"\
-          \n        },\n        \"CY\": {\n            \"topic\": \"Computers and\
-          \ Society\",\n            \"query\": \"cs.CY+cs.AI\"\n        },\n     \
-          \   \"IR\": {\n            \"topic\": \"Information Retrieval\",\n     \
-          \       \"query\": \"cs.IR+cs.AI\"\n        },\n    }\n\n    # switch topic\
-          \ per 4-hour\n    idx = int(hour)//4\n    this_topic = topics.split(',')[idx]\n\
+          \      \"DB\": {\n            \"topic\": \"AI-DB\",\n            \"query\"\
+          : \"cs.DB+cs.AI\"\n        },\n        \"CL\": {\n            \"topic\"\
+          : \"NLP\",\n            \"query\": \"cs.CL+cs.AI\"\n        },\n       \
+          \ \"LLM\": {\n            \"topic\": \"LLM\",\n            \"query\": \"\
+          LLM+cs.AI\"\n        },\n        \"MA\": {\n            \"topic\": \"Multi-Agent\
+          \ System\",\n            \"query\": \"cs.MA\"\n        }\n    }\n\n    #\
+          \ switch topic per 6-hour\n    idx = int(hour)//6\n    this_topic = topics.split(',')[idx]\n\
           \n    return {\n        \"result\": topic_map[this_topic][\"query\"],\n\
           \        \"topic\": topic_map[this_topic][\"topic\"]\n    }\n"
         code_language: python3
@@ -488,8 +495,9 @@ workflow:
         - value_selector:
           - env
           - KEYWORDS
+          value_type: string
           variable: topics
-      height: 143
+      height: 147
       id: '1740615995789'
       position:
         x: 422.62778850824066
@@ -672,10 +680,15 @@ workflow:
         selected: false
         title: Current Hour
         tool_configurations:
-          format: '%H'
-          timezone: Asia/Shanghai
+          format:
+            type: constant
+            value: '%H'
+          timezone:
+            type: constant
+            value: Asia/Shanghai
         tool_label: Current Time
         tool_name: current_time
+        tool_node_version: '2'
         tool_parameters: {}
         type: tool
       height: 160
@@ -717,14 +730,14 @@ workflow:
           - error_message
         - - '1740561517878'
           - error_message
-      height: 203
+      height: 217
       id: '1740724168131'
       position:
-        x: 1349.841693704671
-        y: 748.60719473001
+        x: 1610.4012533618331
+        y: 747.6385718316562
       positionAbsolute:
-        x: 1349.841693704671
-        y: 748.60719473001
+        x: 1610.4012533618331
+        y: 747.6385718316562
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -743,7 +756,7 @@ workflow:
               text\": \"Encounter error:{{#1740724168131.output#}}\"\n    }\n"
           type: json
         desc: ''
-        headers: ''
+        headers: Content-Type:application/json
         method: post
         params: ''
         retry_config:
@@ -759,14 +772,14 @@ workflow:
         type: http-request
         url: '{{#env.FEISHU_DEV#}}'
         variables: []
-      height: 97
+      height: 98
       id: '1740724332371'
       position:
-        x: 1639.2672773012114
-        y: 563.9770558179279
+        x: 1899.8268369583736
+        y: 563.0084329195741
       positionAbsolute:
-        x: 1639.2672773012114
-        y: 563.9770558179279
+        x: 1899.8268369583736
+        y: 563.0084329195741
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -805,30 +818,40 @@ workflow:
           \            else:\n                # No category found, use the whole text\
           \ as title\n                paper_data['title'] = title_text\n         \
           \       paper_data['categories'] = []\n        \n        # Extract authors\n\
-          \        authors_match = re.search(r'Authors: (.*?)\\n\\s+Abstract:', section,\
+          \        authors_match = re.search(r'Authors:(.*?)\\n\\s*Abstract:', section,\
           \ re.DOTALL)\n        if authors_match:\n            # Extract author names\
           \ from the links\n            author_text = authors_match.group(1)\n   \
-          \         author_names = re.findall(r'\\[(.*?)\\]', author_text)\n     \
-          \       paper_data['authors'] = author_names\n        else:\n          \
-          \  paper_data['authors'] = []\n        \n        # Extract abstract\n  \
-          \      abstract_match = re.search(r'Abstract: (.*?)(?:\\n\\s+Submitted|\\\
-          n\\s+$)', section, re.DOTALL)\n        if abstract_match:\n            #\
-          \ Clean up the abstract text\n            abstract = abstract_match.group(1).strip()\n\
-          \            # Remove the \"▽ More\" or \"△ Less\" text that appears at\
-          \ the end of abstracts\n            abstract = re.sub(r'[▽△] (?:More|Less)$',\
-          \ '', abstract).strip()\n            paper_data['abstract'] = abstract\n\
-          \        \n        # Extract submission info\n        submission_match =\
-          \ re.search(r'Submitted (.*?)\\.', section)\n        if submission_match:\n\
-          \            paper_data['submission_info'] = f\"Submitted {submission_match.group(1)}\"\
-          \n        \n        # Extract comments if present\n        comments_match\
-          \ = re.search(r'Comments: (.*?)(?:\\n\\s+|$)', section)\n        if comments_match:\n\
-          \            paper_data['comments'] = comments_match.group(1).strip()\n\
-          \        \n        results.append(paper_data)\n    \n    return results\n\
-          \ndef fetch_arxiv_papers(query, api_auth, max_papers):\n    \"\"\"\n   \
-          \ Fetch arXiv papers using the Jina API and extract paper information\n\
-          \    \n    Args:\n        query: Search query for arXiv\n        \n    Returns:\n\
-          \        List of dictionaries containing paper information\n    \"\"\"\n\
-          \    url = f'https://r.jina.ai/https://arxiv.org/search/?query={query}&searchtype=all&abstracts=show&order=-submitted_date&size=25'\n\
+          \         # Find all author names within square brackets\n            author_names\
+          \ = re.findall(r'\\[(.*?)\\]', author_text)\n            paper_data['authors']\
+          \ = author_names\n        else:\n            paper_data['authors'] = []\n\
+          \        \n        # Extract abstract\n        abstract_match = re.search(r'Abstract:\
+          \ (.*?)(?:\\n\\s+Submitted|\\n\\s+$)', section, re.DOTALL)\n        if abstract_match:\n\
+          \            # Clean up the abstract text\n            abstract = abstract_match.group(1).strip()\n\
+          \            \n            # Handle the case where abstract contains both\
+          \ truncated and full versions\n            # Pattern: \"truncated text…\
+          \ [▽ More](link) full text [△ Less](link)\"\n            more_less_pattern\
+          \ = r'…\\s*\\[▽ More\\]\\([^)]+\\)\\s*(.*?)\\s*\\[△ Less\\]\\([^)]+\\)'\n\
+          \            more_match = re.search(more_less_pattern, abstract, re.DOTALL)\n\
+          \            \n            if more_match:\n                # Extract the\
+          \ full text part (after \"▽ More\" and before \"△ Less\")\n            \
+          \    abstract = more_match.group(1).strip()\n            else:\n       \
+          \         # If no \"▽ More\" pattern, just clean up any remaining \"△ Less\"\
+          \ text\n                abstract = re.sub(r'\\s*\\[△ Less\\]\\([^)]+\\)$',\
+          \ '', abstract).strip()\n                # Also remove any remaining \"\
+          ▽ More\" text\n                abstract = re.sub(r'…\\s*\\[▽ More\\]\\([^)]+\\\
+          ).*$', '…', abstract, flags=re.DOTALL).strip()\n            \n         \
+          \   paper_data['abstract'] = abstract\n        \n        # Extract submission\
+          \ info\n        submission_match = re.search(r'Submitted (.*?)\\.', section)\n\
+          \        if submission_match:\n            paper_data['submission_info']\
+          \ = f\"Submitted {submission_match.group(1)}\"\n        \n        # Extract\
+          \ comments if present\n        comments_match = re.search(r'Comments: (.*?)(?:\\\
+          n\\s+|$)', section)\n        if comments_match:\n            paper_data['comments']\
+          \ = comments_match.group(1).strip()\n        \n        results.append(paper_data)\n\
+          \    \n    return results\n\ndef fetch_arxiv_papers(query, api_auth, max_papers):\n\
+          \    \"\"\"\n    Fetch arXiv papers using the Jina API and extract paper\
+          \ information\n    \n    Args:\n        query: Search query for arXiv\n\
+          \        \n    Returns:\n        List of dictionaries containing paper information\n\
+          \    \"\"\"\n    url = f'https://r.jina.ai/https://arxiv.org/search/?query={query}&searchtype=all&abstracts=show&order=-submitted_date&size=25'\n\
           \    headers = {\n        'Authorization': f'Bearer {api_auth}',\n     \
           \   'X-Return-Format': 'markdown'  # Use markdown format\n    }\n    \n\
           \    response = requests.get(url, headers=headers)\n        \n    # Extract\
@@ -864,17 +887,17 @@ workflow:
       height: 118
       id: '1741079554177'
       position:
-        x: 734.3848133082164
-        y: 483.60662988581134
+        x: 857.0084959615461
+        y: 538.7872870798097
       positionAbsolute:
-        x: 734.3848133082164
-        y: 483.60662988581134
+        x: 857.0084959615461
+        y: 538.7872870798097
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 244
     viewport:
-      x: 36.39236221631245
-      y: 225.41967591327943
-      zoom: 0.6661967581499284
+      x: -875.0077654133213
+      y: 226.80861283698914
+      zoom: 0.7895341020494626
