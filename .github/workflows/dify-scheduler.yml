@@ -1,0 +1,30 @@
+name: Dify ArxivFlow Scheduler
+
+on:
+  schedule:
+    # Run 
+    - cron: '0 1,7,13,19 * * 1-5'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  run-arxiv-workflow:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Run ArxivFlow Scheduler
+      env:
+        DIFY_BASE_URL: ${{ secrets.DIFY_BASE_URL }}
+        DIFY_TOKENS: ${{ secrets.DIFY_TOKENS }}
+        DIFY_INPUTS: ${{ secrets.DIFY_INPUTS }}
+      run: node scheduler/arxiv-scheduler.js
