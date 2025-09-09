@@ -1,0 +1,26 @@
+{
+  "name": "arxivflow-scheduler",
+  "version": "1.0.0",
+  "description": "Automated scheduler for ArxivFlow Dify workflow with Feishu notifications",
+  "main": "scheduler/arxiv-scheduler.js",
+  "scripts": {
+    "start": "node scheduler/arxiv-scheduler.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dify",
+    "arxiv",
+    "scheduler",
+    "feishu",
+    "workflow",
+    "automation"
+  ],
+  "author": "Tiger",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,137 @@
+[
+  {
+    "id": "2509.06956",
+    "link": "https://arxiv.org/abs/2509.06956",
+    "pdf_link": "https://arxiv.org/pdf/2509.06956",
+    "categories": [
+      "cs.CV",
+      "cs.AI",
+      "cs.LG"
+    ],
+    "title": "H$_{2}$OT: Hierarchical Hourglass Tokenizer for Efficient Video Pose Transformers",
+    "authors": [
+      "Wenhao Li",
+      "Mengyuan Liu",
+      "Hong Liu",
+      "Pichao Wang",
+      "Shijian Lu",
+      "Nicu Sebe"
+    ],
+    "abstract": "Transformers have been successfully applied in the field of video-based 3D human pose estimation. However, the high computational costs of these video pose transformers (VPTs) make them impractical on resource-constrained devices. In this paper, we present a hierarchical plug-and-play pruning-and-recovering framework, called Hierarchical Hourglass Tokenizer (H$_{2}$OT), for efficient transformer-based 3D human pose estimation from videos. H$_{2}$OT begins with progressively pruning pose tokens of redundant frames and ends with recovering full-length sequences, resulting in a few pose tokens in the intermediate transformer blocks and thus improving the model efficiency. It works with two key modules, namely, a Token Pruning Module (TPM) and a Token Recovering Module (TRM). TPM dynamically selects a few representative tokens to eliminate the redundancy of video frames, while TRM restores the detailed spatio-temporal information based on the selected tokens, thereby expanding the network output to the original full-length temporal resolution for fast inference. Our method is general-purpose: it can be easily incorporated into common VPT models on both seq2seq and seq2frame pipelines while effectively accommodating different token pruning and recovery strategies. In addition, our H$_{2}$OT reveals that maintaining the full pose sequence is unnecessary, and a few pose tokens of representative frames can achieve both high efficiency and estimation accuracy. Extensive experiments on multiple benchmark datasets demonstrate both the effectiveness and efficiency of the proposed method. Code and models are available at https://github.com/NationalGAILab/HoT.",
+    "submission_info": "Submitted 8 September, 2025; originally announced September 2025"
+  },
+  {
+    "id": "2406.06464",
+    "link": "https://arxiv.org/abs/2406.06464",
+    "pdf_link": "https://arxiv.org/pdf/2406.06464",
+    "categories": [
+      "cs.AI",
+      "cs.CL"
+    ],
+    "title": "Transforming Wearable Data into Personal Health Insights using Large Language Model Agents",
+    "authors": [
+      "Mike A. Merrill",
+      "Akshay Paruchuri",
+      "Naghmeh Rezaei",
+      "Geza Kovacs",
+      "Javier Perez",
+      "Yun Liu",
+      "Erik Schenck",
+      "Nova Hammerquist",
+      "Jake Sunshine",
+      "Shyam Tailor",
+      "Kumar Ayush",
+      "Hao-Wei Su",
+      "Qian He",
+      "Cory Y. McLean",
+      "Mark Malhotra",
+      "Shwetak Patel",
+      "Jiening Zhan",
+      "Tim Althoff",
+      "Daniel McDuff",
+      "Xin Liu"
+    ],
+    "abstract": "Deriving personalized insights from popular wearable trackers requires complex numerical reasoning that challenges standard LLMs, necessitating tool-based approaches like code generation. Large language model (LLM) agents present a promising yet largely untapped solution for this analysis at scale. We introduce the Personal Health Insights Agent (PHIA), a system leveraging multistep reasoning with code generation and information retrieval to analyze and interpret behavioral health data. To test its capabilities, we create and share two benchmark datasets with over 4000 health insights questions. A 650-hour human expert evaluation shows that PHIA significantly outperforms a strong code generation baseline, achieving 84% accuracy on objective, numerical questions and, for open-ended ones, earning 83% favorable ratings while being twice as likely to achieve the highest quality rating. This work can advance behavioral health by empowering individuals to understand their data, enabling a new era of accessible, personalized, and data-driven wellness for the wider population.",
+    "submission_info": "Submitted 8 September, 2025; v1 submitted 10 June, 2024; originally announced June 2024"
+  },
+  {
+    "id": "2509.06953",
+    "link": "https://arxiv.org/abs/2509.06953",
+    "pdf_link": "https://arxiv.org/pdf/2509.06953",
+    "categories": [
+      "cs.RO",
+      "cs.AI",
+      "cs.CV",
+      "cs.LG",
+      "eess.SY"
+    ],
+    "title": "Deep Reactive Policy: Learning Reactive Manipulator Motion Planning for Dynamic Environments",
+    "authors": [
+      "Jiahui Yang",
+      "Jason Jingzhou Liu",
+      "Yulong Li",
+      "Youssef Khaky",
+      "Kenneth Shaw",
+      "Deepak Pathak"
+    ],
+    "abstract": "Generating collision-free motion in dynamic, partially observable environments is a fundamental challenge for robotic manipulators. Classical motion planners can compute globally optimal trajectories but require full environment knowledge and are typically too slow for dynamic scenes. Neural motion policies offer a promising alternative by operating in closed-loop directly on raw sensory inputs but often struggle to generalize in complex or dynamic settings. We propose Deep Reactive Policy (DRP), a visuo-motor neural motion policy designed for reactive motion generation in diverse dynamic environments, operating directly on point cloud sensory input. At its core is IMPACT, a transformer-based neural motion policy pretrained on 10 million generated expert trajectories across diverse simulation scenarios. We further improve IMPACT's static obstacle avoidance through iterative student-teacher finetuning. We additionally enhance the policy's dynamic obstacle avoidance at inference time using DCP-RMP, a locally reactive goal-proposal module. We evaluate DRP on challenging tasks featuring cluttered scenes, dynamic moving obstacles, and goal obstructions. DRP achieves strong generalization, outperforming prior classical and neural methods in success rate across both simulated and real-world settings. Video results and code available at https://deep-reactive-policy.com",
+    "submission_info": "Submitted 8 September, 2025; originally announced September 2025"
+  },
+  {
+    "id": "2509.06945",
+    "link": "https://arxiv.org/abs/2509.06945",
+    "pdf_link": "https://arxiv.org/pdf/2509.06945",
+    "categories": [
+      "cs.CV",
+      "cs.AI",
+      "cs.CL",
+      "cs.LG"
+    ],
+    "title": "Interleaving Reasoning for Better Text-to-Image Generation",
+    "authors": [
+      "Wenxuan Huang",
+      "Shuang Chen",
+      "Zheyong Xie",
+      "Shaosheng Cao",
+      "Shixiang Tang",
+      "Yufan Shen",
+      "Qingyu Yin",
+      "Wenbo Hu",
+      "Xiaoman Wang",
+      "Yuntian Tang",
+      "Junbo Qiao",
+      "Yue Guo",
+      "Yao Hu",
+      "Zhenfei Yin",
+      "Philip Torr",
+      "Yu Cheng",
+      "Wanli Ouyang",
+      "Shaohui Lin"
+    ],
+    "abstract": "Unified multimodal understanding and generation models recently have achieve significant improvement in image generation capability, yet a large gap remains in instruction following and detail preservation compared to systems that tightly couple comprehension with generation such as GPT-4o. Motivated by recent advances in interleaving reasoning, we explore whether such reasoning can further improve Text-to-Image (T2I) generation. We introduce Interleaving Reasoning Generation (IRG), a framework that alternates between text-based thinking and image synthesis: the model first produces a text-based thinking to guide an initial image, then reflects on the result to refine fine-grained details, visual quality, and aesthetics while preserving semantics. To train IRG effectively, we propose Interleaving Reasoning Generation Learning (IRGL), which targets two sub-goals: (1) strengthening the initial think-and-generate stage to establish core content and base quality, and (2) enabling high-quality textual reflection and faithful implementation of those refinements in a subsequent image. We curate IRGL-300K, a dataset organized into six decomposed learning modes that jointly cover learning text-based thinking, and full thinking-image trajectories. Starting from a unified foundation model that natively emits interleaved text-image outputs, our two-stage training first builds robust thinking and reflection, then efficiently tunes the IRG pipeline in the full thinking-image trajectory data. Extensive experiments show SoTA performance, yielding absolute gains of 5-10 points on GenEval, WISE, TIIF, GenAI-Bench, and OneIG-EN, alongside substantial improvements in visual quality and fine-grained fidelity. The code, model weights and datasets will be released in: https://github.com/Osilly/Interleaving-Reasoning-Generation .",
+    "submission_info": "Submitted 8 September, 2025; originally announced September 2025"
+  },
+  {
+    "id": "2509.06942",
+    "link": "https://arxiv.org/abs/2509.06942",
+    "pdf_link": "https://arxiv.org/pdf/2509.06942",
+    "categories": [
+      "cs.AI",
+      "cs.LG"
+    ],
+    "title": "Directly Aligning the Full Diffusion Trajectory with Fine-Grained Human Preference",
+    "authors": [
+      "Xiangwei Shen",
+      "Zhimin Li",
+      "Zhantao Yang",
+      "Shiyi Zhang",
+      "Yingfang Zhang",
+      "Donghao Li",
+      "Chunyu Wang",
+      "Qinglin Lu",
+      "Yansong Tang"
+    ],
+    "abstract": "Recent studies have demonstrated the effectiveness of directly aligning diffusion models with human preferences using differentiable reward. However, they exhibit two primary challenges: (1) they rely on multistep denoising with gradient computation for reward scoring, which is computationally expensive, thus restricting optimization to only a few diffusion steps; (2) they often need continuous offline adaptation of reward models in order to achieve desired aesthetic quality, such as photorealism or precise lighting effects. To address the limitation of multistep denoising, we propose Direct-Align, a method that predefines a noise prior to effectively recover original images from any time steps via interpolation, leveraging the equation that diffusion states are interpolations between noise and target images, which effectively avoids over-optimization in late timesteps. Furthermore, we introduce Semantic Relative Preference Optimization (SRPO), in which rewards are formulated as text-conditioned signals. This approach enables online adjustment of rewards in response to positive and negative prompt augmentation, thereby reducing the reliance on offline reward fine-tuning. By fine-tuning the FLUX.1.dev model with optimized denoising and online reward adjustment, we improve its human-evaluated realism and aesthetic quality by over 3x.",
+    "submission_info": "Submitted 8 September, 2025; originally announced September 2025"
+  }
+]
