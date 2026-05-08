@@ -1,7 +1,8 @@
 app:
   description: Daily Track on Arxiv.org Paper
-  icon: 🤖
-  icon_background: '#FFEAD5'
+  icon: e2ba07fd-34ef-4684-a578-6c062ceb618c
+  icon_background: null
+  icon_type: image
   mode: workflow
   name: ArxivDairy
   use_icon_as_answer_icon: false
@@ -9,9 +10,10 @@ dependencies:
 - current_identifier: null
   type: marketplace
   value:
-    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.5@fd6efd37c2a931911de8ab9ca3ba2da303bef146d45ee87ad896b04b36d09403
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.15@725407927b04e236212083d20e92830d60fa944e42cd357ef6902c160414f6f1
+    version: null
 kind: app
-version: 0.4.0
+version: 0.6.0
 workflow:
   conversation_variables: []
   environment_variables:
@@ -71,10 +73,14 @@ workflow:
       - remote_url
       enabled: false
       fileUploadConfig:
+        attachment_image_file_size_limit: 2
         audio_file_size_limit: 50
         batch_count_limit: 5
         file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
         image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
         video_file_size_limit: 100
         workflow_file_upload_limit: 10
       image:
@@ -133,17 +139,6 @@ workflow:
       source: '1740552082706'
       sourceHandle: source
       target: '1740561517878'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        sourceType: start
-        targetType: tool
-      id: 1740550800281-source-1740638028046-target
-      source: '1740550800281'
-      sourceHandle: source
-      target: '1740638028046'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -253,26 +248,50 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: trigger-schedule
+        targetType: tool
+      id: 1778257418591-source-1740638028046-target
+      source: '1778257418591'
+      sourceHandle: source
+      target: '1740638028046'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
-        desc: ''
+        config:
+          frequency: daily
+          mode: visual
+          timezone: UTC
+          visual_config:
+            monthly_days:
+            - 1
+            on_minute: 0
+            time: 12:00 AM
+            weekdays:
+            - sun
+        cron_expression: 0 1,7,13,19 * * 1-5
+        mode: cron
         selected: false
-        title: START
-        type: start
-        variables: []
-      height: 54
-      id: '1740550800281'
+        timezone: Asia/Shanghai
+        title: 定时触发器
+        type: trigger-schedule
+      height: 130
+      id: '1778257418591'
       position:
-        x: -23.414742896461348
-        y: 148.8781165677222
+        x: -207.73249953358317
+        y: 306.91470621827636
       positionAbsolute:
-        x: -23.414742896461348
-        y: 148.8781165677222
+        x: -207.73249953358317
+        y: 306.91470621827636
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         context:
           enabled: false
@@ -281,9 +300,10 @@ workflow:
         error_strategy: fail-branch
         model:
           completion_params:
-            temperature: 1
+            temperature: 0.3
+            thinking: false
           mode: chat
-          name: deepseek-reasoner
+          name: deepseek-v4-flash
           provider: langgenius/deepseek/deepseek
         prompt_template:
         - id: 9d3a137c-6000-4a9a-9095-8cdf2c41cf6e
@@ -305,13 +325,13 @@ workflow:
           max_retries: 3
           retry_enabled: true
           retry_interval: 1000
-        selected: true
+        selected: false
         title: LLM Refine
         type: llm
         variables: []
         vision:
           enabled: false
-      height: 183
+      height: 181
       id: '1740552082706'
       position:
         x: 1287.273251896793
@@ -319,18 +339,28 @@ workflow:
       positionAbsolute:
         x: 1287.273251896793
         y: 425.0450294425864
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         desc: ''
-        outputs: []
+        outputs:
+        - value_selector:
+          - '1740559525137'
+          - status_code
+          value_type: number
+          variable: status_code
+        - value_selector:
+          - '1740724332371'
+          - status_code
+          value_type: number
+          variable: error_code
         selected: false
         title: END
         type: end
-      height: 54
+      height: 114
       id: '1740552563893'
       position:
         x: 2257.261086426938
@@ -342,7 +372,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         authorization:
           config: null
@@ -372,21 +402,21 @@ workflow:
           max_write_timeout: 0
         title: Feishu Bot POST
         type: http-request
-        url: '{{#env.FEISHU_DEV#}}'
+        url: '{{#env.FEISHU_PROD#}}'
         variables: []
-      height: 134
+      height: 132
       id: '1740559525137'
       position:
         x: 1899.8268369583736
-        y: 153.72123105949106
+        y: 152.92027368992808
       positionAbsolute:
         x: 1899.8268369583736
-        y: 153.72123105949106
+        y: 152.92027368992808
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         code: "import re\nimport json\n\ndef main(input_string: str) -> dict:\n  \
           \  cleaned_string = re.sub(r'.*?details>', '', input_string, flags=re.DOTALL)\n\
@@ -407,7 +437,7 @@ workflow:
           - '1740552082706'
           - text
           variable: input_string
-      height: 90
+      height: 88
       id: '1740561517878'
       position:
         x: 1610.4012533618331
@@ -419,46 +449,45 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         author: Tiger LI
         desc: ''
-        height: 331
+        height: 308
         selected: false
         showAuthor: true
-        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Objectives:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"This
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Last
+          update: May 9, 2026","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Objectives:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"This
           workflow serves for tracking daily updates in Arxiv.org. Paper info will
           be preprocessed and concluded by a series of modules. Finally, it will post
           to a group chat in Feishu for reading. The target user is for education
-          and research purpose.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Workflow
+          and research purpose. ","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Workflow
           ENV","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"PAPER_NUM_MAX:
           number of papers for message post (you can not send too much information
           in Feishu)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"FEISHU_xxx:
           Webhook of Feishu Group Bot testing (_DEV) and Deployment (-PROD)","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"JINA:
           web crawler for Arxiv.org（ p.s. Jina tool in Dify Marketplace, can''t function
           well）","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"KEYWORDS
-          - For Arxiv query, comma separated. I set 6 keywords in align with my pre-defined
-          time-trigger automation flow in Github Actions.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Workflow
+          - For Arxiv query, comma separated. ","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Workflow
           cost","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Deepseek
-          API + Jina API =< 0.05 CNY","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Automation
-          deployment：Please refer to https://github.com/leochen-g/dify-schedule","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+          API + Jina API =< 0.05 CNY","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""},{"children":[],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
         theme: blue
         title: ''
         type: ''
-        width: 1021
-      height: 331
+        width: 791
+      height: 308
       id: '1740562999688'
       position:
-        x: 464.69426393352296
-        y: -48.65248780243648
+        x: 298.80973201060056
+        y: -98.41784737931324
       positionAbsolute:
-        x: 464.69426393352296
-        y: -48.65248780243648
+        x: 298.80973201060056
+        y: -98.41784737931324
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom-note
-      width: 1021
+      width: 791
     - data:
         code: "\ndef main(hour:str, topics:str) -> dict:\n\n    topic_map = {\n  \
           \      \"DB\": {\n            \"topic\": \"AI-DB\",\n            \"query\"\
@@ -497,7 +526,7 @@ workflow:
           - KEYWORDS
           value_type: string
           variable: topics
-      height: 147
+      height: 145
       id: '1740615995789'
       position:
         x: 422.62778850824066
@@ -505,11 +534,11 @@ workflow:
       positionAbsolute:
         x: 422.62778850824066
         y: 685.1665197229554
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         desc: distribute different topics aligned with hourly event-trigger
         is_team_authorization: true
@@ -691,7 +720,7 @@ workflow:
         tool_node_version: '2'
         tool_parameters: {}
         type: tool
-      height: 160
+      height: 158
       id: '1740638028046'
       position:
         x: 118.80515793445397
@@ -703,7 +732,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         advanced_settings:
           group_enabled: false
@@ -730,7 +759,7 @@ workflow:
           - error_message
         - - '1740561517878'
           - error_message
-      height: 217
+      height: 215
       id: '1740724168131'
       position:
         x: 1610.4012533618331
@@ -742,7 +771,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         authorization:
           config: null
@@ -772,7 +801,7 @@ workflow:
         type: http-request
         url: '{{#env.FEISHU_DEV#}}'
         variables: []
-      height: 98
+      height: 96
       id: '1740724332371'
       position:
         x: 1899.8268369583736
@@ -784,7 +813,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         code: "import requests\nimport re\nimport json\n\ndef extract_arxiv_papers(markdown_content,\
           \ max_papers):\n    \"\"\"\n    Extract paper information from arXiv search\
@@ -882,7 +911,7 @@ workflow:
           - env
           - PAPER_NUM_MAX
           variable: max_papers
-      height: 118
+      height: 116
       id: '1741079554177'
       position:
         x: 857.0084959615461
@@ -894,8 +923,9 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     viewport:
-      x: -552.0077654133213
-      y: 209.80861283698908
-      zoom: 0.7895341020494626
+      x: -32.369921861655484
+      y: 58.25755472729713
+      zoom: 0.741543646386895
+  rag_pipeline_variables: []

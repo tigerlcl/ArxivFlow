@@ -4,7 +4,7 @@ English | [中文](README_CN.md)
 
 Author: Tiger, member from [HKUST Dial](https://github.com/HKUSTDial)
 
-Last update: September 09, 2025
+Last update: May 09, 2026
 
 ## 🎯 Objectives
 This workflow serves for tracking daily updates in arXiv.org. Paper info will be preprocessed and concluded by a series of modules. Finally, it will post to a group chat in Feishu for reading. The target audience is for education and research community.
@@ -14,9 +14,9 @@ This workflow serves for tracking daily updates in arXiv.org. Paper info will be
 ## ✨ Key Features
 
 - 📚 Automatically fetch latest arXiv papers
-- 🤖 AI-powered paper summarization and filtering
+- 🤖 DeepSeek-V4-powered paper summarization and filtering
 - 📱 Auto-send to Feishu group chat
-- ⏰ GitHub Actions automated scheduling
+- ⏰ Dify Cloud internal scheduler trigger
 - 🛠️ Local debugging script support
 
 ## 📋 Prerequisites
@@ -24,7 +24,7 @@ This workflow serves for tracking daily updates in arXiv.org. Paper info will be
 Before getting started, please ensure you have prepared the following accounts and services:
 
 1. **[Dify](https://dify.ai/) account** - Free registration for building AI workflows
-2. **LLM Provider API** - Recommended [DeepSeek API](https://platform.deepseek.com/api_keys) (cost-effective)
+2. **Backbone LLM API** - Use the latest [DeepSeek-V4](https://platform.deepseek.com/api_keys) as the workflow backbone LLM
 3. **[Jina](https://jina.ai/) API key** - For web content extraction, new users get 1M free credits
 4. **Feishu Group Bot Webhook** - For message pushing
 
@@ -45,33 +45,26 @@ Before getting started, please ensure you have prepared the following accounts a
    ![](image/env.png)
    - See detailed configuration in **Environment Variables Configuration** section below
 
-4. **Get API Token**
-   - Get your workflow API token from workflow settings
-   - This token will be used for automated scheduling
+4. **Configure Scheduler Trigger**
+   - Add a scheduler trigger in Dify Workflow Studio
+   - Configure the trigger time according to your desired push frequency
 
-### Step 2: Setup Automated Scheduler (Recommended)
+### Step 2: Setup Automated Scheduler
 
-The project provides an integrated scheduler that can trigger Dify-side workflows on schedule.
+Dify Cloud now supports scheduler triggers directly inside Workflow Studio. Use the internal scheduler trigger for automated execution.
 
 #### Quick Setup:
 
-1. **Configure GitHub Secrets**:
-   - Go to repository Settings > Secrets and variables > Actions > New repository secret
-   - Add secret `DIFY_TOKENS`: Your Dify workflow API token (separate multiple tokens with `;`)
+1. **Open Workflow Studio**:
+   - Select your imported ArxivFlow workflow in Dify
 
-2. **Enable GitHub Actions**: Go to repository Actions tab and enable workflows
+2. **Add Scheduler Trigger**:
+   - Configure the schedule in the workflow trigger settings
 
-3. **Automatic Execution**: The scheduler will automatically run according to timing rules defined in [dify-scheduler.yml](.github/workflows/dify-scheduler.yml). For syntax details, see [cron.help](https://cron.help/).
+3. **Publish Workflow**:
+   - Save and publish the workflow so Dify Cloud runs it on schedule
 
-### Manual Execution:
-- **GitHub Actions**: Go to Actions tab > "Dify ArxivFlow Scheduler" > "Run workflow"
-- **Local Testing**: 
-  ```bash
-  npm install
-  # Set environment variables
-  export DIFY_TOKENS="your_workflow_token_here"
-  npm start
-  ```
+The previous GitHub Actions scheduler has been deprecated and archived under [`deprecated/github-actions-scheduler`](deprecated/github-actions-scheduler/).
 
 ### 📱 Final Result
 
@@ -80,23 +73,16 @@ The project provides an integrated scheduler that can trigger Dify-side workflow
 The scheduler will automatically:
 - ✅ Execute your Dify workflow daily
 - 📊 Log execution results and status
-- ❌ Report any errors to GitHub Actions logs
-- 🔄 Support multiple workflows if needed
+- ❌ Report execution status in Dify
+- 🔄 Support workflow-level schedule configuration
 
 ## 🔧 Environment Variables Configuration
-
-### GitHub Actions Secrets (Required):
-- `DIFY_TOKENS`: Your Dify workflow API token, separate multiple workflows with `;`
-
-### Optional Configuration:
-- `DIFY_BASE_URL`: Dify API base URL (default: `https://api.dify.ai/v1`)
-- `DIFY_INPUTS`: Workflow input variables in JSON format (default: `{}`)
 
 ### Dify Workflow Internal Environment Variables:
 - `FEISHU_DEV` / `FEISHU_PROD`: Feishu Group Bot Webhook for testing/production environments
 - `JINA`: API key for crawling arXiv search results
 - `KEYWORDS`: Keywords for arXiv paper search, comma-separated
-  - The number of KEYWORDS and sending frequency needs to match the timing rules in GitHub Actions
+  - The number of KEYWORDS and sending frequency should match the Dify scheduler trigger configuration
   - Example: If sending 4 pushes daily, KEYWORDS needs 4 keywords, and timing rules need 4 time points
 - `PAPER_NUM_MAX`: Maximum number of papers per message (limited by Feishu message length)
 
@@ -121,7 +107,7 @@ python jina_extract.py
 - Feishu - How to use Bot in Group Chat: [Link (Chinese)](https://www.feishu.cn/hc/zh-CN/articles/360024984973-%E5%9C%A8%E7%BE%A4%E7%BB%84%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%9C%BA%E5%99%A8%E4%BA%BA?from=in-im-bot)
 - AWS Workshop: Lab3-使用Dify构建AI Workflow: [Link (Chinese)](https://catalog.us-east-1.prod.workshops.aws/workshops/2c19fcb1-1f1c-4f52-b759-0ca4d2ae2522/zh-CN)
 - arXiv Category: [Link](https://arxiv.org/category_taxonomy)
-- Dify Schedule Project: [Link](https://github.com/leochen-g/dify-schedule) - Inspiration for the automated scheduler implementation
+- Dify Schedule Project: [Link](https://github.com/leochen-g/dify-schedule) - Inspiration for the deprecated GitHub Actions scheduler implementation
 
 ## 📄 License
 

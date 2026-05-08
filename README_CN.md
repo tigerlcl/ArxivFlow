@@ -5,7 +5,7 @@
 
 作者：Tiger，来自 [HKUST Dial](https://github.com/HKUSTDial) 实验室
 
-最后更新：2025年9月9日
+最后更新：2026年5月9日
 
 ## 🎯 项目目标
 
@@ -16,9 +16,9 @@
 ## ✨ 主要功能
 
 - 📚 自动抓取 arXiv 最新论文
-- 🤖 AI 智能总结和筛选论文
+- 🤖 基于 DeepSeek-V4 的论文总结和筛选
 - 📱 自动发送到飞书群聊
-- ⏰ GitHub Actions 自动定时执行
+- ⏰ Dify Cloud 内置定时触发器
 - 🛠️ 本地调试脚本支持
 
 ## 📋 前置条件
@@ -26,7 +26,7 @@
 在开始之前，请确保您已准备好以下账号和服务：
 
 1. **[Dify](https://dify.ai/) 账号** - 免费注册，用于构建 AI 工作流
-2. **LLM 提供商 API** - 推荐使用 [DeepSeek API](https://platform.deepseek.com/api_keys)（性价比高）
+2. **骨干大模型 API** - 使用最新的 [DeepSeek-V4](https://platform.deepseek.com/api_keys) 作为工作流骨干大模型
 3. **[Jina](https://jina.ai/) API 密钥** - 用于网页内容提取，新用户有100万免费额度
 4. **飞书群机器人 Webhook** - 用于消息推送
 
@@ -47,49 +47,34 @@
    ![](image/env.png)
    - 详细配置说明见下方**环境变量配置**部分
 
-4. **获取 API 令牌**
-   - 在工作流设置中获取您的工作流 API 令牌
-   - 这个令牌用于后续的自动化调度
+4. **配置定时触发器**
+   - 在 Dify Workflow Studio 中添加定时触发器
+   - 按照期望的推送频率配置触发时间
 
-### 第2步：设置自动化调度器（推荐）
+### 第2步：设置自动化调度器
 
-项目提供一个集成的调度器，可以定时触发DiFy端侧工作流。
+Dify Cloud 已支持在 Workflow Studio 内直接配置定时触发器。请使用内置定时触发器完成自动执行。
 
 #### 快速配置：
 
-1. **配置 GitHub Secrets**：
-   - 进入仓库的 Settings > Secrets and variables > Actions > New repository secret
-   - 添加密钥`DIFY_TOKENS`: 您的 Dify 工作流 API 令牌（多个令牌用 `;` 分隔）
+1. **打开 Workflow Studio**：
+   - 在 Dify 中选择已导入的 ArxivFlow 工作流
 
-2. **启用 GitHub Actions**：进入仓库的 Actions 选项卡并启用工作流
+2. **添加定时触发器**：
+   - 在工作流触发器设置中配置执行时间
 
-3. **自动执行**：调度器将依据 [dify-scheduler.yml](.github/workflows/dify-scheduler.yml) 中的定时规则自动运行，定义语法详见[cron.help](https://cron.help/)。
+3. **发布工作流**：
+   - 保存并发布工作流后，Dify Cloud 会按计划运行
 
-#### 手动执行：
-
-- **GitHub Actions**：Actions 选项卡 > "Dify ArxivFlow Scheduler" > "Run workflow"
-- **本地测试**：
-  ```bash
-  npm install
-  # 设置环境变量
-  export DIFY_TOKENS="your_workflow_token_here"
-  npm start
-  ```
+此前的 GitHub Actions 调度器已废弃，并归档到 [`deprecated/github-actions-scheduler`](deprecated/github-actions-scheduler/)。
 
 ## 🔧 环境变量配置
-
-### GitHub Actions 密钥（必需）：
-- `DIFY_TOKENS`: 您的 Dify 工作流 API 令牌，多个工作流用 `;` 分隔
-
-### 可选配置：
-- `DIFY_BASE_URL`: Dify API 基础 URL（默认：`https://api.dify.ai/v1`）
-- `DIFY_INPUTS`: 工作流输入变量，JSON 格式（默认：`{}`）
 
 ### Dify 工作流内部环境变量：
 - `FEISHU_DEV` / `FEISHU_PROD`: 飞书群机器人 Webhook，用于测试/生产环境
 - `JINA`: 用于arXiv搜索结果的爬取API 密钥
 - `KEYWORDS`: 用于arXiv搜索论文关键词，逗号分隔
-   - KEYWORDS 数目和时间发送频率需要与GitHub Actions中的定时规则相匹配
+   - KEYWORDS 数目和发送频率应与 Dify 定时触发器配置相匹配
    - 例如：每天发送4次推送，那么KEYWORDS需要设置为4个关键词，定时规则也需要有4个时间点
 - `PAPER_NUM_MAX`: 每条消息的最大论文数量（受飞书消息长度限制）
 
@@ -116,8 +101,8 @@ python jina_extract.py
 调度器将自动：
 - ✅ 每日执行您的 Dify 工作流
 - 📊 记录执行结果和状态
-- ❌ 将任何错误报告到 GitHub Actions 日志
-- 🔄 根据需要支持多个工作流
+- ❌ 在 Dify 中记录执行状态
+- 🔄 支持工作流级别的定时配置
 
 
 ## 🤝 致谢
@@ -126,7 +111,7 @@ python jina_extract.py
 - 飞书 - 如何在群组中使用机器人：[链接](https://www.feishu.cn/hc/zh-CN/articles/360024984973-%E5%9C%A8%E7%BE%A4%E7%BB%84%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%9C%BA%E5%99%A8%E4%BA%BA?from=in-im-bot)
 - AWS 工作坊：Lab3-使用Dify构建AI Workflow：[链接](https://catalog.us-east-1.prod.workshops.aws/workshops/2c19fcb1-1f1c-4f52-b759-0ca4d2ae2522/zh-CN)
 - arXiv 分类体系：[链接](https://arxiv.org/category_taxonomy)
-- Dify 调度项目：[链接](https://github.com/leochen-g/dify-schedule) - 自动化调度器实现的灵感来源
+- Dify 调度项目：[链接](https://github.com/leochen-g/dify-schedule) - 已废弃 GitHub Actions 调度器实现的灵感来源
 
 ## 📄 许可证
 
